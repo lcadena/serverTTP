@@ -15,7 +15,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
-    "method-override": "^3.0.0"
+    "method-override": "^3.0.0",
+    "object-sha": "^1.0.5",
+    "rsa": "file:../modulRSA"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
