@@ -6,9 +6,9 @@ const api = express.Router()
 
 
 api.get('/', ttpCtrl.getTest)
-api.get('/pubkeyTP', ttpCtrl.getPubKeyTTP)
-// api.get('/gmessage', msgCtrl.getMsg)
-api.post('/pm3', ttpCtrl.post)
+api.get('/pubkeyTTP', ttpCtrl.getPubKeyTTP)
+//api.get('/getk', ttpCtrl.obtainK)
+api.post('/pm3', ttpCtrl.postK)
 // api.post('/sign')
 
 module.exports = api

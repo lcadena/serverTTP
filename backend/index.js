@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 const apittp = require('./routes/routes');
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(router)
-app.use(cors({origin: 'http://localhost:4200'}))
+app.use(cors({origin: 'http://localhost:4200'}, {origin: 'http://localhost:3000'}))
 app.options('*',cors())
 app.use(express.json())
 app.use('', apittp)
