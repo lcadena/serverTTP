@@ -25,25 +25,29 @@ function getPubKeyTTP(req, res) {
 
 async function postK(req, res) {
     let bodyres = req.body
-    console.log("body res: ", bodyres)
+    // console.log("body res: ", bodyres)
     // Proof of origin of K
     Pko = req.body.signature
-    console.log('Pko: ', Pko)
+    console.log('Proof origen de K en la TTP: ', {
+        pko: Pko
+    })
     // pubKey de A
     pubKeyA = new rsa.PublicKey(bc.hexToBigint(req.body.publicKey.e), bc.hexToBigint(req.body.publicKey.n))
     console.log('pubKeyA en TTP: ', pubKeyA)
     const digestProof = bc.bigintToHex(pubKeyA.verify(bc.hexToBigint(req.body.signature)))
-    console.log('digestProof ttp: ', digestProof)
-    console.log('---------------------')
-    console.log(sha.hashable(req.body.body))
-    console.log('---------------------')
+    // console.log('digestProof ttp: ', digestProof)
+    // console.log('---------------------')
+    // console.log(sha.hashable(req.body.body))
+    // console.log('---------------------')
     const digestBody = await sha.digest(req.body.body)
-    console.log('digestBody ttp: ', digestBody)
+    // console.log('digestBody ttp: ', digestBody)
     if ((digestBody === digestProof)) {
         k = bc.hexToBuf(req.body.body.msg)
-        console.log('k: ', k)
+        console.log('K en TTP: ', {
+            key: k
+        })
         iv = req.body.body.iv
-        console.log('iv: ', iv)
+        console.log('IV en la TTP: ', iv)
         const body = {
             type: '4',
             src: 'TTP',
@@ -52,16 +56,18 @@ async function postK(req, res) {
             iv: iv,
             timestamp: Date.now()
         }
-        console.log('---------------------')
-        console.log(sha.hashable(body))
-        console.log('---------------------')
+        // console.log('---------------------')
+        // console.log(sha.hashable(body))
+        // console.log('---------------------')
         const digest = await sha.digest(body, 'SHA-256')
         const digestH = bc.hexToBigint(digest)
         const signature = await keys['privateKey'].sign(digestH)
         bodyA = body
         // proof of key publication
         signatureA = bc.bigintToHex(signature)
-        console.log('pkp: ', signatureA)
+        console.log('Proof de publicación de K en TTP: ', {
+            pkp: signatureA
+        })
         return res.status(200).send({
             body: body,
             signature: bc.bigintToHex(signature)
